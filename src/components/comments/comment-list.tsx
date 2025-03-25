@@ -1,21 +1,23 @@
-import CommentShow from '@/components/comments/comment-show';
+import CommentShow from "@/components/comments/comment-show";
 
-interface CommentListProps {}
+interface Comment {
+  id: string;
+  parentId: string | null;
+  content: string;
+  postId: string;
+  user: { name: string; image: string };
+}
 
-// TODO: Get a list of comments from somewhere
-export default function CommentList({}: CommentListProps) {
-  const topLevelComments = comments.filter(
-    (comment) => comment.parentId === null
-  );
-  const renderedComments = topLevelComments.map((comment) => {
-    return (
-      <CommentShow
-        key={comment.id}
-        commentId={comment.id}
-        comments={comments}
-      />
-    );
-  });
+interface CommentListProps {
+  comments: Comment[];
+}
+
+export default function CommentList({ comments }: CommentListProps) {
+  const topLevelComments = comments.filter((comment) => comment.parentId === null);
+
+  const renderedComments = topLevelComments.map((comment) => (
+    <CommentShow key={comment.id} commentId={comment.id} comments={comments} />
+  ));
 
   return (
     <div className="space-y-3">
